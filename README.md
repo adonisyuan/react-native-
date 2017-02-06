@@ -47,7 +47,7 @@ To download Atom, please reference: https://atom.io/
 
 After Atom is installed, we launch it, go to Atom->Preferences...->Install and tap Nuclide in the search box, the top 1 result is from facebook, and we install it.
 
-![atom install nuclide](./images/atom_instal_nuclide.png)
+![atom install nuclide](./images/atom_install_nuclide.png)
 
 Now, we restart it, we can see additional Nuclide entry on the tool bar of atom.
 ![atom nuclide installed](./images/atom_nuclide_installed.png)
