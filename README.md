@@ -16,11 +16,14 @@ Target Audiences: OC Programmers, but only have a superficial knowledge about JS
 React Native采用Node.js作为服务器容器，所以在Mac上我们应该安装npm（node package manager）.这个工具负责了node服务器的启动、关闭，第三方库、依赖的管理，脚本命令的执行等等。
 
 打开一个终端，输入
+```
     brew install node 
     brew install watchman
-
+```
 node安装完成，继续输入
+```
     npm install -g react-native-cli
+```
 
 这个命令安装了react native 命令接口，-g参数是必须的，这保证了该接口对Mac上的所有react native项目可用。
 
@@ -30,11 +33,16 @@ React Native adpots Node.js as the server container, so on Mac we should install
 
 
 open a Terminal, we input
+
+```
     brew install node 
     brew install watchman
+```
 
 After node is installed, we tap below command in Terminal
+```
     npm install -g react-native-cli
+```
 
 this command installs react native client command line interface, the -g argument is indispensable, which guarantees that the react native cli is available for all react native projects on the Mac.
 
