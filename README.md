@@ -49,11 +49,17 @@ this command installs react native client command line interface, the -g argumen
 more details please reference: https://facebook.github.io/react-native/docs/getting-started.html#content
 
 ## JS Editor installation
-Facebook launched a great plugin Nuclide for the charming editor Atom, this is optional, but I strongly recommend iOS developers to use this editor and its plugin, because in Nuclide Facebook play an additional type checking on JS code (flow)
 
-To download Atom, please reference: https://atom.io/
+Facebook为编辑器Atom发布了一款名为Nuclide的插件，这不是必须的，但强烈建议iOS开发者安装，Nuclide包含了React Native相关功能和Facebook自己为js添加的类型检查（通过flow），使用flow后，所有的js代码必须显示加上类型。  
 
-After Atom is installed, we launch it, go to Atom->Preferences...->Install and tap Nuclide in the search box, the top 1 result is from facebook, and we install it.
+Facebook launched a great plugin Nuclide for the charming editor Atom, this is optional, but I strongly recommend iOS developers to use this editor and its plugin, because in Nuclide Facebook play an additional type checking on JS code (flow), when using flow, all code in JS must add type explicitly.  
+
+
+To download Atom, please reference: https://atom.io/  
+
+
+After Atom is installed, we launch it, go to Atom->Preferences...->Install and tap Nuclide in the search box, the top 1 result is from facebook, and we install it.  
+
 
 ![atom install nuclide](./images/atom_install_nuclide.png)
 
@@ -61,6 +67,46 @@ Now, we restart it, we can see additional Nuclide entry on the tool bar of atom.
 ![atom nuclide installed](./images/atom_nuclide_installed.png)
 
 ## Project Integrating
+
+It's not rare to have an existing project, so instead of creating a total new React Native project, we should add existing iOS project to React Native folder(same process apply to Android)  
+
+A React Native Project looks like below:
+
+![react native project](./images/react_native_project.png)
+
+In ios folder, we store our existing iOS project(android folder for storing android project)  
+
+index.ios.js is the entrance file of our js code for iOS(the counterpart file for Android is index.android.js)  
+
+Here we should pay special attention to package.json and node_modules folder.  
+
+We don't create node_modules folder, which contains the React Native code and all of its' dependencies code including js code and oc code.  
+
+Instead we edit package.json, an ordinary package.json looks like below:  
+
+![package json](./images/package_json.png)  
+
+name specify our project name(refer to the project name in info.plist of Xcode)  
+
+version specify the version of the project (refer to the version value in info.plist of Xcode)
+
+scripts specify the abbreviation of the long command, which will be called by npm
+
+e.g 
+
+in Terminal, we tap  
+```
+    npm start
+```
+
+which will be substituted by  
+```
+    node node_modules/react-native/local-cli/cli.js start
+```
+
+in dependencies section, we specify the version of react(15.4.1) and react native() we use
+
+
 
 
 # JS Problems
