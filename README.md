@@ -153,6 +153,11 @@ in dependencies section, we specify the version of react(15.4.1) and react nativ
 
 ## flow problems
 
+如何使用flow进行类型检查？
+
+首先，我们需要在根目录下创建一个空白的.flowconfig文件，整个根目录如下所示：  
+
+
 How to use flow to type check?
 
 First off, we should create a blank .flowconfig in the root folder
@@ -161,24 +166,36 @@ After .flowconfig file is created and put in the root folder, the hierarchy look
 
 ![flow config](./images/flowconfig.png)
 
+然后我们在每个我们想要flow进行类型检查的JS文件中，添加/* @flow */到文件顶部：  
 
 And in every JS file we want flow to type check, we add /* @flow */ at the top of the file:  
 ![flow check](./images/flow_check.png)
 
+之后，flow会自动检查我们的代码，如果没有，重启Atom  
+
+此时，如果我们没有对函数的参数和返回值添加类型注释，flow会警告我们，如下：  
+
 After that, flow will check our js code automatically, if not, restart Atom.
 
-If we don't add type annotation to the arguments and return type, flow will alert us like below:  
+If we don't add type annotations to the arguments and return type, flow will alert us like below:  
 
 ![flow alert](./images/flow_alert.png)
 
 ![flow alert detail](./images/flow_alert_detail.png)
 
-After we add enough annotation, the alert goes away:  
+在我们添加了足够的注释后，警告消失：  
+
+After we add enough annotations, the alert goes away:  
 
 ![flow no alert](./images/flow_no_alert.png)
 
-Now when we call method will flow annotation, we can get method arguments type prompt.  
+现在当我们调用有flow注释的方法时，我们可以得到参数类型提示：  
+
+
+Now when we call method with flow annotations, we can get method arguments type prompt.  
 ![flow prompt](./images/flow_prompt.png)
+
+更多关于flow的语法细节，请访问https://flowtype.org/  
 
 More syntax detail about flow, please refer https://flowtype.org/
 
