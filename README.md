@@ -201,6 +201,33 @@ More syntax detail about flow, please refer https://flowtype.org/
 
 ## duplicate server start
 
+In ordinary, we have two ways to start local server:  
+
+in Terminal, we go to the root folder of React Native, and tap:  
+```
+    npm start
+```
+ 
+![npm start](./images/npm_start.png)   
+
+or  
+
+in Atom editor, we go to Atom->Nuclide->React Native->start packager  
+![atom start packager](./images/atom_start_packager.png)  
+
+These two ways are interchangeable, but we can't call them at the same time, otherwise we will get an alert, which tell us the port 8081 has been taken up by another process.  
+![duplicate server error](./images/duplicate_server.png)   
+
+The solution is simple, we just find the process and kill it:  
+```
+    lsof -i : 8081
+    kill -9 <PID>
+```
+
+The first command find the process for us, and in the second command we kill the corresponding process.  
+![kill server](./images/kill_server.png)   
+
+Now we call restart the server.
 
 # JS Problems
 
