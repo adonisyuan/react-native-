@@ -126,7 +126,8 @@ in Terminal, we tap
     node node_modules/react-native/local-cli/cli.js start
 ```
 
-在dependencies区域，我们指定了所使用的react和react native的版本（15.4.1和0.40.0）
+在dependencies区域，我们指定了所使用的react和react native的版本（15.4.1和0.40.0）  
+
 name specify our project name(refer to the project name in info.plist of Xcode)  
 
 version specify the version of the project (refer to the version value in info.plist of Xcode)
@@ -147,6 +148,34 @@ which will be substituted by
 
 in dependencies section, we specify the version of react(15.4.1) and react native(0.40.0) we use
 
+
+# Atom Problems
+
+## flow problems
+
+How to use flow to type check?
+
+First off, we should create a blank .flowconfig in the root folder
+
+After .flowconfig file is created and put in the root folder, the hierarchy looks like below:  
+
+![flow config](./images/flowconfig.png)
+
+
+And in every JS file we want flow to type check, we add /* flow */ at the top of the file:  
+![flow check](./images/flow_check.png)
+
+After that, flow will check our js code automatically, if not, restart Atom.
+
+If we don't add type annotation to the arguments and return type, flow will alert us like below:  
+
+![flow alert](./images/flow_alert.png)
+
+![flow alert detail](./images/flow_alert_detail.png)
+
+After we add enough annotation, the alert goes away:  
+
+![flow no alert](./images/flow_no_alert.png)
 
 
 
