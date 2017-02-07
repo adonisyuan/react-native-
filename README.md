@@ -199,12 +199,45 @@ Now when we call method with flow annotations, we can get method arguments type 
 
 More syntax detail about flow, please refer https://flowtype.org/
 
+## duplicate server start
+
 
 # JS Problems
 
+## this bind
+
+## props pass
+
+## state initialize
+
+## required props
+
+## network request
+
+## debug
+
+## infinite call stack
+
+## how to import custom JS file
+
+## export JS class
+
+## ES5 vs ES6
+
+## flex layout
 
 
 # OC Problems
+
+## export module(class)
+
+## export method
+
+## export properties
+
+## export custom component (UIView)
+
+## generate JS file and OC code automatically
 
 
 
