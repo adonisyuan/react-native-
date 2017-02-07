@@ -50,7 +50,13 @@ more details please reference: https://facebook.github.io/react-native/docs/gett
 
 ## JS Editor installation
 
-Facebook为编辑器Atom发布了一款名为Nuclide的插件，这不是必须的，但强烈建议iOS开发者安装，Nuclide包含了React Native相关功能和Facebook自己为js添加的类型检查（通过flow），使用flow后，所有的js代码必须显示加上类型。  
+Facebook为编辑器Atom发布了一款名为Nuclide的插件，这不是必须的，但强烈建议iOS开发者安装，Nuclide包含了React Native相关功能和Facebook自己为js添加的类型检查（通过flow），使用flow后，所有的js代码必须显式加上类型。  
+
+要下载Atom编辑器，请访问https://atom.io/  
+
+Atom安装后，启动，进入Atom->Preferences...->Install菜单项，输入Nuclide，来自Facebook的第三方包即是，我们按照它。  
+
+重启Atom之后，我们就可以在Atom的工具栏中看到Nuclide菜单，如下两图所示。  
 
 Facebook launched a great plugin Nuclide for the charming editor Atom, this is optional, but I strongly recommend iOS developers to use this editor and its plugin, because in Nuclide Facebook play an additional type checking on JS code (flow), when using flow, all code in JS must add type explicitly.  
 
@@ -68,11 +74,25 @@ Now, we restart it, we can see additional Nuclide entry on the tool bar of atom.
 
 ## Project Integrating
 
+通常我们已有一个iOS项目，所以我们不会创建一个新的react native项目，而是把已有的iOS项目集成到React Native目录中（同样过程也适用于Android）
+
+一个React Native项目目录如下图所示：  
+
 It's not rare to have an existing project, so instead of creating a total new React Native project, we should add existing iOS project to React Native folder(same process apply to Android)  
 
 A React Native Project looks like below:
 
 ![react native project](./images/react_native_project.png)
+
+在ios目录中，我们存放了已有的iOS项目（android目录则存放android项目）  
+
+index.ios.js是iOS项目的js入口代码（android则为index.android.js）  
+
+这里，我们需要特别关注package.json文件和node_modules目录  
+
+我们并不自己创建node_modules目录，而是npm根据package.json中指定的依赖去下载JS和OC代码并存放在这个目录里。
+
+我们编辑package.json文件，一个package.json文件通常如下图所示：
 
 In ios folder, we store our existing iOS project(android folder for storing android project)  
 
@@ -80,11 +100,33 @@ index.ios.js is the entrance file of our js code for iOS(the counterpart file fo
 
 Here we should pay special attention to package.json and node_modules folder.  
 
-We don't create node_modules folder, which contains the React Native code and all of its' dependencies code including js code and oc code.  
+We don't create node_modules folder, instead npm install necessary JS and OC code for us into this folder.  
 
-Instead we edit package.json, an ordinary package.json looks like below:  
+We edit package.json, an ordinary package.json looks like below:  
 
 ![package json](./images/package_json.png)  
+
+这里name指定了我们的项目名字（可以参考iOS项目的名称）
+
+version指定了项目的版本（可以参考iOS项目的版本）
+
+scripts指定了长命令的缩写，由npm调用
+
+例如，
+
+终端中，我们输入
+
+in Terminal, we tap  
+```
+    npm start
+```
+
+会被npm替换为
+```
+    node node_modules/react-native/local-cli/cli.js start
+```
+
+在dependencies区域，我们指定了所使用的react和react native的版本（15.4.1和0.40.0）  
 
 name specify our project name(refer to the project name in info.plist of Xcode)  
 
@@ -104,8 +146,36 @@ which will be substituted by
     node node_modules/react-native/local-cli/cli.js start
 ```
 
-in dependencies section, we specify the version of react(15.4.1) and react native() we use
+in dependencies section, we specify the version of react(15.4.1) and react native(0.40.0) we use
 
+
+# Atom Problems
+
+## flow problems
+
+How to use flow to type check?
+
+First off, we should create a blank .flowconfig in the root folder
+
+After .flowconfig file is created and put in the root folder, the hierarchy looks like below:  
+
+![flow config](./images/flowconfig.png)
+
+
+And in every JS file we want flow to type check, we add /* flow */ at the top of the file:  
+![flow check](./images/flow_check.png)
+
+After that, flow will check our js code automatically, if not, restart Atom.
+
+If we don't add type annotation to the arguments and return type, flow will alert us like below:  
+
+![flow alert](./images/flow_alert.png)
+
+![flow alert detail](./images/flow_alert_detail.png)
+
+After we add enough annotation, the alert goes away:  
+
+![flow no alert](./images/flow_no_alert.png)
 
 
 
