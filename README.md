@@ -162,7 +162,7 @@ After .flowconfig file is created and put in the root folder, the hierarchy look
 ![flow config](./images/flowconfig.png)
 
 
-And in every JS file we want flow to type check, we add /* flow */ at the top of the file:  
+And in every JS file we want flow to type check, we add /* @flow */ at the top of the file:  
 ![flow check](./images/flow_check.png)
 
 After that, flow will check our js code automatically, if not, restart Atom.
@@ -177,6 +177,10 @@ After we add enough annotation, the alert goes away:
 
 ![flow no alert](./images/flow_no_alert.png)
 
+Now when we call method will flow annotation, we can get method arguments type prompt.  
+![flow prompt](./images/flow_prompt.png)
+
+More syntax detail about flow, please refer https://flowtype.org/
 
 
 # JS Problems
