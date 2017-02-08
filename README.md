@@ -376,10 +376,13 @@ be careful, to install redux, we can include it in our package.json, like below:
 or we can run below command in our React Native root directory in Terminal
 ```
     npm install --save redux
+    npm install --save react-redux
+    npm install --save-dev redux-devtools
 ```
 
-These two methods are equivilant.
+These two methods are equivalant, they all download redux and related packages and install them under {React Native Root Directory}/node_modules/  
 
+这两种方法是等价的，他们都会下载redux和相关包并安装到{React Native Root Directory}/node_modules/下  
 
 
 ## this bind
