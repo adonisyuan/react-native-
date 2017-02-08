@@ -229,7 +229,7 @@ The solution is simple, we just find the process and kill it:
 The first command find the process for us, and in the second command we kill the corresponding process.  
 ![kill server](./images/kill_server.png)   
 
-Now we call restart the server.
+Now we can restart the server.
 
 # JS Problems
 
@@ -255,17 +255,22 @@ So once again, I strongly recommend all freshmen to JS to adopt flow.
 在React Native或其他网站，我们经常遇到以下两种方式的JS代码
 
 ES5
+```
+    var React = require('react-native');
+    var { TabBarIOS, NavigatorIOS } = React;
 
-
-ES6
-
-
-更多ES5和ES6的详细对比，可以参看[ES5 VS ES6](http://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/) （可能需要科学上网）
-
-In React Native website or any other websites, we often come across below code with two different styles.
-
-ES5
-
+    var App = React.createClass({
+        render: function() {
+            return (
+                <TabBarIOS>
+                <TabBarIOS.Item title="React Native" selected={true}>
+                <NavigatorIOS initialRoute={{ title: 'React Native' }} />
+                </TabBarIOS.Item>
+                </TabBarIOS>
+            );
+        },
+    });
+``` 
 
 ES6
 ```
@@ -287,9 +292,95 @@ ES6
         image: React.PropTypes.array,
         font: React.PropTypes.number,
     };
+```  
+
+
+更多ES5和ES6的详细对比，可以参看[ES5 VS ES6](http://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/) （可能需要科学上网） 和[ES6 特性(英文)](https://babeljs.io/learn-es2015/)
+那么哪种编程规范是我们该采用的呢？
+
+从0.23.0开始，React Native放弃了ES5而采用了ES6，所以任何新的React Native程序员都应该使用ES6而不是ES5。
+
+In React Native website or any other websites, we often come across below code with two different styles.
+
+ES5
+```
+    var React = require('react-native');
+    var { TabBarIOS, NavigatorIOS } = React;
+
+    var App = React.createClass({
+        render: function() {
+            return (
+                <TabBarIOS>
+                <TabBarIOS.Item title="React Native" selected={true}>
+                <NavigatorIOS initialRoute={{ title: 'React Native' }} />
+                </TabBarIOS.Item>
+                </TabBarIOS>
+            );
+        },
+    });
+``` 
+
+ES6
+```
+    import React, {Component} from 'react';
+    import { AppRegistry , requireNativeComponent} from 'react-native';
+
+    var RCTPersonalButton = requireNativeComponent('RCTPersonalButton', PersonalButton);
+
+    export class PersonalButton extends Component {
+        render() {
+        return <RCTPersonalButton {...this.props} />;
+    }
+    }
+
+    PersonalButton.propTypes = {
+    // An allowable property example, all properties declared here can be referenced automatically
+        title: React.PropTypes.array,
+        titleColor: React.PropTypes.array,
+        image: React.PropTypes.array,
+        font: React.PropTypes.number,
+    };
+```  
+ 
+more detail please see: [ES5 VS ES6](http://es6-features.org)和[ES6 features](https://babeljs.io/learn-es2015/)  
+
+So which specification should we choose?  
+
+Since 0.23.0, React Native abandoned the old ES5 and adopted ES6, every new React Native programmer should embrace ES6 rather than ES5.  
+
+
+## React 
+
+### props
+
+### state
+
+### flex
+
+### redux
+
+Why we need redux?
+
+更多细节请参考 [redux](http://redux.js.org/)  
+
+需要注意，要安装redux，我们可以如下将之在我们的package.json中引入：  
+
+more detail, please refer to [redux](http://redux.js.org/)  
+
+be careful, to install redux, we can include it in our package.json, like below:
+
+![redux in package.json](../images/package_redux.png)
+
+或者我们可以在React Native的根目录下打开终端，输入以下命令:  
+
+or we can run below command in our React Native root directory in Terminal
+```
+    npm install --save redux
 ```
 
-## React
+These two methods are equivilant.
+
+
 
 ## this bind
 
