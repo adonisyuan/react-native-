@@ -420,5 +420,97 @@ These two methods are equivalant, they all download redux and related packages a
 
 ## generate JS file and OC code automatically
 
+## integrate third party library
 
+Sometimes we need integrate third party libraries to speed up the development. 
+
+For example, multiple Image Picker is one of the commonst required function demanded by apps. 
+
+However, the official component couldn't meet our needs.  
+
+So we choose to adopt [React Native Image Crop Picker](https://github.com/ivpusic/react-native-image-crop-picker)  
+
+But when we build our iOS app, we encounter header file not found problem like below  :
+
+
+有时，我们需要集成第三方库以加速我们的开发。 
+
+例如，多图选择器是一个常见的业务需求功能。  
+
+然而，官方的控件并不能满足我们的要求。
+
+所以，我们打算采用 [React Native Image Crop Picker](https://github.com/ivpusic/react-native-image-crop-picker)  
+
+但是当我们构建iOS应用的时候，却遇见了以下错误。 
+
+![Header file not found](../images/header_file_not_found.png)
+
+经过一些抓破头皮的尝试后，我添加了两个新的xcconfig文件到imageCropPicker项目，如下 
+After some digging, I add two xcconfig files to imageCropPicker project, like below  
+
+![Adding XCConfig file](../images/add_xcconfig.png)
+
+The content of the xcconfig file looks like below  
+xcconfig文件的内容如下 
+![XCConfig content](../images/xcconfig_content.png)
+
+Then I config the project setting's Configurations of Project->Info, like below  
+接着我设置了imageCropPicker项目的Project->Info中的Configurations选项 
+
+![XCConfig file link](../images/xcconfig.png)
+
+然后我设置了imageCropPicker的targets中Building Setting中的头文件的搜索路径为递归，如下  
+And I set the header search path of imageCropPicker->target->Build Settings->Header Search Paths from non-recursive to recursive, like below  
+
+![Adding XCConfig file](../images/header_search_path.png) 
+
+After all these work, try build again, finnally the app run successfully.
+
+Although we tackled this problem, but why did it not work at first?
+
+Let's delve into the build logs of two different times.
+
+The fail build log of ImageCropPicker.m looks like below 
+ImageCropPicker.m文件的构建失败日志如下 
+
+```
+CompileC /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/Objects-normal/i386/ImageCropPicker-400F16F3CF62B860.o ImageCropPicker.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cd /Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios
+export LANG=en_US.US-ASCII
+export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 ... -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/imageCropPicker-all-non-framework-target-headers.hmap -ivfsoverlay /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/all-product-headers.yaml -iquote /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/imageCropPicker-project-headers.hmap -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Products/Debug-iphonesimulator/include -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/DerivedSources/i386 -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/DerivedSources ... -c /Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/ImageCropPicker.m -o /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/Objects-normal/i386/ImageCropPicker-400F16F3CF62B860.o
+
+In file included from /Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/ImageCropPicker.m:8:
+/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/ImageCropPicker.h:17:9: fatal error: 'React/RCTBridgeModule.h' file not found
+#import <React/RCTBridgeModule.h>
+^
+1 error generated.
+```
+The success build log of ImageCropPicker.m looks like below  
+ImageCropPicker.m的构建成功日志如下  
+
+```
+CompileC /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/Objects-normal/i386/ImageCropPicker-400F16F3CF62B860.o ImageCropPicker.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cd /Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios
+export LANG=en_US.US-ASCII
+export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 ... -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/imageCropPicker-own-target-headers.hmap -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/imageCropPicker-all-non-framework-target-headers.hmap -ivfsoverlay /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/all-product-headers.yaml -iquote /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/imageCropPicker-project-headers.hmap -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Products/Debug-iphonesimulator/include -I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../../../ios/Pods/Headers/Public -I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../../../ios/Pods/Headers/Public/React -I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../example/node_modules/react-native/React -I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../example/node_modules/react-native/Libraries/Image -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/DerivedSources/i386 -I/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/DerivedSources -F/Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Products/Debug-iphonesimulator ... -c /Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/ImageCropPicker.m -o /Users/oeasy/Library/Developer/Xcode/DerivedData/CommonProject-cucrlakddhuvxzdbiiiifkujqojw/Build/Intermediates/imageCropPicker.build/Debug-iphonesimulator/imageCropPicker.build/Objects-normal/i386/ImageCropPicker-400F16F3CF62B860.o
+```
+
+
+在比较两个构建日之后，我们可以察觉到其中的细微差别 
+After comparing the two logs, we could detect the subtle nuance between them. 
+
+成功的日志多了一些头文件搜索路径  
+The success log have additional header search paths like below 
+
+```
+-I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../../../ios/Pods/Headers/Public -I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../../../ios/Pods/Headers/Public/React -I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../example/node_modules/react-native/React -I/Users/oeasy/Documents/ReactNative/node_modules/react-native-image-crop-picker/ios/../example/node_modules/react-native/Libraries/Image
+```
+
+如我们所知头文件作为其他模块的入口，在编译时，编译器搜索头文件去定位其他类和方法的定义，在链接时，编译器会把所有而精致文件链接城一个可执行文件。 
+As we all know header files function als the entry to other modules, at compiling time, compiler just search header files to locate the definitions of other classes and methods, at link time, compiler will link all object files into one big executable file. 
+
+所以在哪存放、去哪查找头文件并不重要，因为他们并不存在于最终的二进制文件中。但是在编译时，它帮助单个.m文件去检查调用者是否遵循了定义规范。 
+So it doesn't matter where to find and put the header files, because they don't exist in the final binary file. But at compile time, it help the single .m file to check that caller comform to the definition convention. 
 
