@@ -369,7 +369,7 @@ more detail, please refer to [redux](http://redux.js.org/)
 
 be careful, to install redux, we can include it in our package.json, like below:
 
-![redux in package.json](../images/package_redux.png)
+![redux in package.json](./images/package_redux.png)
 
 或者我们可以在React Native的根目录下打开终端，输入以下命令:  
 
@@ -443,26 +443,26 @@ But when we build our iOS app, we encounter header file not found problem like b
 
 但是当我们构建iOS应用的时候，却遇见了以下错误。 
 
-![Header file not found](../images/header_file_not_found.png)
+![Header file not found](./images/header_file_not_found.png)
 
 经过一些抓破头皮的尝试后，我添加了两个新的xcconfig文件到imageCropPicker项目，如下 
 After some digging, I add two xcconfig files to imageCropPicker project, like below  
 
-![Adding XCConfig file](../images/add_xcconfig.png)
+![Adding XCConfig file](./images/add_xcconfig.png)
 
 The content of the xcconfig file looks like below  
 xcconfig文件的内容如下 
-![XCConfig content](../images/xcconfig_content.png)
+![XCConfig content](./images/xcconfig_content.png)
 
 Then I config the project setting's Configurations of Project->Info, like below  
 接着我设置了imageCropPicker项目的Project->Info中的Configurations选项 
 
-![XCConfig file link](../images/xcconfig.png)
+![XCConfig file link](./images/xcconfig.png)
 
 然后我设置了imageCropPicker的targets中Building Setting中的头文件的搜索路径为递归，如下  
 And I set the header search path of imageCropPicker->target->Build Settings->Header Search Paths from non-recursive to recursive, like below  
 
-![Adding XCConfig file](../images/header_search_path.png) 
+![Adding XCConfig file](./images/header_search_path.png) 
 
 After all these work, try build again, finnally the app run successfully.
 
