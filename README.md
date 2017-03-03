@@ -514,3 +514,55 @@ As we all know header files function als the entry to other modules, at compilin
 所以在哪存放、去哪查找头文件并不重要，因为他们并不存在于最终的二进制文件中。但是在编译时，它帮助单个.m文件去检查调用者是否遵循了定义规范。 
 So it doesn't matter where to find and put the header files, because they don't exist in the final binary file. But at compile time, it help the single .m file to check that caller comform to the definition convention. 
 
+## automatically build bundle and copy to *.app
+
+
+At first, we add one more custom build shell phase to our target, like below  
+一开始，我们添加一个自定义脚本构建过程到我们的目标，如下： 
+
+![bundle react native](./images/bundle_shell.png)
+
+这里我们把脚本放在react native的根目录下，所以我们应该在$SRCROOT后面加上.. 
+
+脚本代码如下， 这里我们认为根目录下的所有以ios.js结尾的文件都是入口文件。  
+
+Here we put the shell script file under the root directory of react native project, so we should append .. to $SRCROOT.  
+
+And in this shell script file, we add below code.  
+
+In this file, we take all file with ios.js extension as entry files.  
+
+
+```
+#!/bin/sh
+
+
+echo ${CONFIGURATION}
+
+if [[ "$CONFIGURATION" == "Release" ]]; then
+
+echo "start bundle react native"
+
+set -e
+
+cd ..
+
+find . -maxdepth 1 -name \*.ios.js -print | while read f; do
+#   echo "$f"
+fname=`basename $f`
+#   echo $fname
+fname="${fname%.ios.js}"
+#   echo $fname
+#   echo $f
+react-native bundle --dev false --entry-file $f --bundle-output ios/$fname.jsbundle --assets-dest ios --platform ios \;
+done
+
+find ios -name \*.jsbundle -exec cp {} ${CODESIGNING_FOLDER_PATH} \;
+
+find $SRCROOT -name \*.jsbundle -exec rm {} \;
+find $SRCROOT -name \*.jsbundle.meta -exec rm {} \;
+
+echo "finish bundle react native"
+
+fi
+```
